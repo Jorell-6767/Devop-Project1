@@ -6,10 +6,18 @@ var startPage = "index.html";
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.static("./public"));
+const { addResource } = require('./utils/AddResourceUtil')
+const { viewResources } = require('./utils/ViewResourceUtil')
+app.post('/add-resource', addResource);
+app.get('/view-resources', viewResources);
 app.get('/', (req, res) => {
     res.sendFile(__dirname + "/public/" + startPage);
 })
-server = app.listen(PORT, function () {
+const server = app.listen(PORT, function (err) {
+    if (err) {
+        console.error('Server failed to start:', err.message);
+        process.exit(1);
+    }
     const address = server.address();
     const baseUrl = `http://${address.address == "::" ? 'localhost' :
         address.address}:${address.port}`;
