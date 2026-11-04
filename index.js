@@ -10,8 +10,13 @@ app.use(express.static("./public"));
 
 const { addResource } = require('./utils/AddResourceUtil')
 const { viewResources } = require('./utils/ViewResourceUtil')
+const { editResource } = require('./utils/EditResourceUtil');
+const { deleteResource } = require('./utils/DeleteResourceUtil');
+
 app.post('/add-resource', addResource);
 app.get('/view-resources', viewResources);
+app.put('/edit-resource/:id', editResource);
+app.delete('/delete-resource/:id', deleteResource);
 
 app.get('/', (req, res) => {
     res.sendFile(__dirname + "/public/" + startPage);
